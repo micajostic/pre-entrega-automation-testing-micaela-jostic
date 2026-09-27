@@ -103,7 +103,19 @@ directamente en el navegador.
 
 | Test | Marker | Qué valida |
 |---|---|---|
-| `test_login_exitoso` | `smoke` | Login con credenciales válidas, redirección a `/inventory.html` y presencia del título "Products" |
+| `test_login_exitoso` | `smoke` | Login con credenciales válidas, espera explícita de la redirección a `/inventory.html`, título "Products" y `document.title` "Swag Labs" |
+| `test_catalogo_de_productos` | — | Título de la página de inventario, presencia de productos visibles, nombre y precio del primer producto, y presencia del menú lateral y del filtro de orden |
+| `test_agregar_producto_al_carrito` | — | Carrito vacío al inicio, agregado del primer producto, incremento del contador, navegación a `/cart.html` y verificación de que el producto agregado está en el carrito |
+
+Los tres casos son **independientes entre sí**: cada uno abre una instancia limpia de
+Chrome mediante la fixture `driver` y realiza su propio inicio de sesión, de modo que
+la falla de uno no afecta a los demás ni el orden de ejecución altera el resultado.
+
+### Estrategia de espera
+
+Todas las validaciones utilizan **esperas explícitas** (`WebDriverWait` + `expected_conditions`)
+en lugar de pausas fijas. Esto hace que las pruebas sean más rápidas cuando la página
+responde bien y más estables cuando responde lento.
 
 ---
 
