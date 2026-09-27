@@ -97,6 +97,9 @@ pytest -v --html=reports/reporte.html --self-contained-html
 El reporte queda disponible en `reports/reporte.html` y puede abrirse
 directamente en el navegador.
 
+> Si el comando `pytest` no se encuentra en la terminal, puede ejecutarse como
+> módulo de Python: `python -m pytest -v`. Ambas formas son equivalentes.
+
 ---
 
 ## Casos de prueba
@@ -104,8 +107,21 @@ directamente en el navegador.
 | Test | Marker | Qué valida |
 |---|---|---|
 | `test_login_exitoso` | `smoke` | Login con credenciales válidas, espera explícita de la redirección a `/inventory.html`, título "Products" y `document.title` "Swag Labs" |
-| `test_catalogo_de_productos` | — | Título de la página de inventario, presencia de productos visibles, nombre y precio del primer producto, y presencia del menú lateral y del filtro de orden |
-| `test_agregar_producto_al_carrito` | — | Carrito vacío al inicio, agregado del primer producto, incremento del contador, navegación a `/cart.html` y verificación de que el producto agregado está en el carrito |
+| `test_catalogo_de_productos` | `regression` | Título de la página de inventario, presencia de productos visibles, nombre y precio del primer producto, y presencia del menú lateral y del filtro de orden |
+| `test_agregar_producto_al_carrito` | `regression` | Carrito vacío al inicio, agregado del primer producto, incremento del contador, navegación a `/cart.html` y verificación de que el producto agregado está en el carrito |
+
+### Markers
+
+Los casos están etiquetados para poder ejecutarlos por separado desde la línea de comandos:
+
+| Marker | Alcance |
+|---|---|
+| `smoke` | Pruebas críticas y rápidas. Verifican que la funcionalidad básica responde. |
+| `regression` | Flujos completos de usuario, más lentos y con más pasos. |
+| `exception` | Casos que validan el manejo de errores (reservado para futuros tests). |
+
+    pytest -v -m smoke        # solo la verificación crítica
+    pytest -v -m regression   # solo los flujos completos
 
 Los tres casos son **independientes entre sí**: cada uno abre una instancia limpia de
 Chrome mediante la fixture `driver` y realiza su propio inicio de sesión, de modo que

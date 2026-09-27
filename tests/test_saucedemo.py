@@ -23,7 +23,7 @@ def test_login_exitoso(driver):
 
     assert driver.title == "Swag Labs"
 
-
+@pytest.mark.regression
 def test_catalogo_de_productos(driver):
     """Verifica el titulo, los productos visibles y los elementos de interfaz."""
 
@@ -53,7 +53,7 @@ def test_catalogo_de_productos(driver):
     filtro = helpers.esperar_elemento(driver, helpers.FILTRO_ORDEN)
     assert filtro.is_displayed(), "El filtro de orden no esta visible"
 
-
+@pytest.mark.regression
 def test_agregar_producto_al_carrito(driver):
     """Verifica que se puede agregar un producto al carrito de compras."""
 
