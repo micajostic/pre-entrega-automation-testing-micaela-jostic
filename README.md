@@ -64,7 +64,7 @@ se hace en un único lugar.
 Requisitos previos: **Python 3.10 o superior** y **Google Chrome** instalado.
 
 ```bash
-git clone https://github.com/TU-USUARIO/pre-entrega-automation-testing-micaela-jostic.git
+git clone https://github.com/micajostic/pre-entrega-automation-testing-micaela-jostic.git
 cd pre-entrega-automation-testing-micaela-jostic
 pip install -r requirements.txt
 ```

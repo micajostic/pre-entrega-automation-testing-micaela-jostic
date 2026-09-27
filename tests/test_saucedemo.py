@@ -52,3 +52,32 @@ def test_catalogo_de_productos(driver):
 
     filtro = helpers.esperar_elemento(driver, helpers.FILTRO_ORDEN)
     assert filtro.is_displayed(), "El filtro de orden no esta visible"
+
+
+def test_agregar_producto_al_carrito(driver):
+    """Verifica que se puede agregar un producto al carrito de compras."""
+
+    # Precondicion: iniciar sesion
+    helpers.ir_a_login(driver)
+    helpers.iniciar_sesion(driver, USUARIO_VALIDO, PASSWORD_VALIDO)
+    helpers.esperar_url_contiene(driver, "/inventory.html")
+
+    # 1. El carrito arranca vacio
+    assert helpers.contador_carrito(driver) == 0, "El carrito no estaba vacio al inicio"
+
+    # 2. Agregar el primer producto al carrito
+    nombre_agregado = helpers.agregar_primer_producto_al_carrito(driver)
+    print(f"\nProducto agregado: {nombre_agregado}")
+
+    # 3. El contador del carrito se incremento
+    helpers.esperar_contador_carrito(driver, 1)
+    assert helpers.contador_carrito(driver) == 1, "El contador del carrito no se incremento"
+
+    # 4. Navegar al carrito
+    helpers.ir_al_carrito(driver)
+    assert "/cart.html" in driver.current_url, "No navego a la pagina del carrito"
+
+    # 5. El producto agregado aparece en el carrito
+    items = helpers.items_del_carrito(driver)
+    assert len(items) == 1, f"Se esperaba 1 producto en el carrito y hay {len(items)}"
+    assert nombre_agregado in items[0].text, "El producto del carrito no es el que agregue"
